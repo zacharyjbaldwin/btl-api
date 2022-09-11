@@ -10,6 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan('combined'));
 
+// Connect to MongoDB Atlas
 mongoose.connect(MONGO_DB_CONNECTION_STRING)
     .then(() => console.log('Connected to MongoDB'))
     .catch(() => {
@@ -17,6 +18,7 @@ mongoose.connect(MONGO_DB_CONNECTION_STRING)
         process.exit(1);
     });
 
+// CORS policy settings - please do not change these
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-Wish, Content-Type, Accept, Authorization');
@@ -24,7 +26,9 @@ app.use((req, res, next) => {
     next();
 });
 
+// Add the routes here
 app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/', require('./routes/example.routes'));
+app.use('/api', require('./routes/example.routes'));
 
-app.listen(PORT, console.log(`Listening on port ${PORT}...`));
+// Listen on the specified port.
+app.listen(PORT, console.log(`Listening on localhost:${PORT}...`));
