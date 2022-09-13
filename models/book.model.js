@@ -7,7 +7,7 @@ const bookSchema = mongoose.Schema({
     summary: { type: String, required: false, default: 'No summary available.' },
     genre: { type: String, required: true },
     price: { type: Number, required: true },
-    stock: { type: Number, required: true },
+    quantityInStock: { type: Number, required: true },
     imageUrl: { type: String, required: true }
 });
 
