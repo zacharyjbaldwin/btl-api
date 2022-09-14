@@ -17,9 +17,6 @@
     "url": "https://github.com/zacharyjbaldwin/btl-api/issues"
   },
   "homepage": "https://github.com/zacharyjbaldwin/btl-api#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.19"
-  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.18.1",
