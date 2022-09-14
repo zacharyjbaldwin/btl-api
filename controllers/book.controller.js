@@ -34,6 +34,21 @@ module.exports.addBook = (req, res) => {
         });
 };
 
+module.exports.deleteBook = (req, res) => {
+    Book.deleteOne({ _id: req.params.id })
+        .then((mres) => {
+            res.status(200).json({
+                message: 'Book deleted.',
+                mres: mres
+            });
+        })
+        .catch((error) => {
+            res.status(500).json({
+                error: 'Internal error.'
+            });
+        });
+};
+
 module.exports.getAllBooks = (req, res) => {
     Book.find({})
         .then((books) => {
@@ -49,4 +64,20 @@ module.exports.getAllBooks = (req, res) => {
                 error: error
             })
         })
+};
+
+module.exports.updateBook = (req, res) => {
+    Book.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        .then((mres) => {
+            res.status(200).json({
+                message: 'Updated book.',
+                book: mres
+            });
+        })
+        .catch((error) => {
+            res.status(500).json({
+                message: 'Internal error',
+                error: error
+            })
+        });
 };
