@@ -1,6 +1,66 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user.model');
+
+const JWT_SECRET = process.env.JWT_SECRET || require('../keys.json').JWT_SECRET;
+
+
+// POST root/api/auth/login
+module.exports.login = (req, res) => {
+    if (!req.body.email || !req.body.password) {
+        return res.status(400).json({
+            error: 'Bad request. Missing email or password.'
+        });
+    }
+
+    let fetchedUser;
+    User.findOne({ email: req.body.email })
+        .then((user) => {
+            if (!user) {
+                return res.status(401).json({
+                    error: 'EMAIL_DOES_NOT_EXIST'
+                });
+            }
+  
+            fetchedUser = {
+                email: user.email,
+                userId: user._id,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                isAdmin: user.isAdmin
+            };
+  
+            bcrypt.compare(req.body.password, user.password)
+                .then((match) => {
+                    if (!match) {
+                        return res.status(401).json({
+                            error: 'INCORRECT_PASSWORD'
+                        });
+                    }
+  
+                    const token = jwt.sign(
+                        { email: fetchedUser.email, userId: fetchedUser.userId, firstname: fetchedUser.firstname, lastname: fetchedUser.lastname, isAdmin: fetchedUser.isAdmin },
+                        JWT_SECRET,
+                        { expiresIn: '1h' }
+                    );
+  
+                    res.status(200).json({
+                        token: token,
+                        expiresIn: 3600,
+                        userId: fetchedUser.userId,
+                        firstname: fetchedUser.firstname,
+                        lastname: fetchedUser.lastname,
+                        isAdmin: fetchedUser.isAdmin
+                    });
+                });
+        })
+        .catch(() => {
+            return res.status(500).json({
+                error: 'Internal error.'
+            });
+        });
+};
 
 // POST root/api/auth/signup
 module.exports.signup = (req, res) => {
