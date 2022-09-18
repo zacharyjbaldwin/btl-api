@@ -11,13 +11,14 @@ module.exports = (req, res, next) => {
 
     req.userData = {
       email: decodedToken.email,
-      userId: decodedToken.userId
+      userId: decodedToken.userId,
+      isAdmin: decodedToken.isAdmin
     }
 
     next();
   } catch (error) {
     res.status(401).json({
-      error: 'Not authorized.'
+      error: 'Not authenticated.'
     });
   }
 };
