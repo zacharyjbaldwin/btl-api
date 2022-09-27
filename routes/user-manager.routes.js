@@ -8,9 +8,9 @@ const mustBeAdmin = require('../middleware/check-admin');
 router.get('/', mustBeAuthenticated, mustBeAdmin, userManagerController.getUsers)
 
 // POST root/api/users/promote/userId
-router.post('/promote/:id', userManagerController.promoteUser);
+router.post('/promote/:id', mustBeAuthenticated, mustBeAdmin, userManagerController.promoteUser);
 
 // POST root/api/users/demote/userId
-router.post('/demote/:id', userManagerController.demoteUser);
+router.post('/demote/:id', mustBeAuthenticated, mustBeAdmin, userManagerController.demoteUser);
 
 module.exports = router;
