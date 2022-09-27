@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 // Add the routes here
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/books', require('./routes/book.routes'));
+app.use('/api/users', require('./routes/user-manager.routes'));
 app.use('/api', require('./routes/example.routes'));
 
 // Listen on the specified port.
