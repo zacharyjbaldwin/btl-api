@@ -25,7 +25,8 @@ exports.promoteUser = (req, res) => {
     User.findByIdAndUpdate(req.params.id, { isAdmin: true }, { new: true })
         .then((user) => {
             res.status(200).json({
-                message: `Promoted user ${user.firstname} ${user.lastname}`
+                message: `Promoted user ${user.firstname} ${user.lastname}`,
+                user: user
             });
         })
         .catch((error) => {
@@ -40,7 +41,8 @@ exports.demoteUser = (req, res) => {
     User.findByIdAndUpdate(req.params.id, { isAdmin: false }, { new: true })
         .then((user) => {
             res.status(200).json({
-                message: `Demoted user ${user.firstname} ${user.lastname}`
+                message: `Demoted user ${user.firstname} ${user.lastname}`,
+                user: user
             });
         })
         .catch((error) => {
