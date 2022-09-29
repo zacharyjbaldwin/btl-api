@@ -51,7 +51,8 @@ module.exports.login = (req, res) => {
                         userId: fetchedUser.userId,
                         firstname: fetchedUser.firstname,
                         lastname: fetchedUser.lastname,
-                        isAdmin: fetchedUser.isAdmin
+                        isAdmin: fetchedUser.isAdmin,
+                        email: fetchedUser.email
                     });
                 });
         })
