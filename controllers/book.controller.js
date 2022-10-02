@@ -22,7 +22,7 @@ module.exports.addBook = (req, res) => {
 
     book.save()
         .then((book) => {
-            Logger.addLog('book','book saved');
+            Logger.addLog('book',`${req.userData.firstname} ${req.userData.lastname} added ${book.title}`); 
             res.status(201).json({
                 message: 'Added book',
                 book: book
@@ -39,7 +39,7 @@ module.exports.addBook = (req, res) => {
 module.exports.deleteBook = (req, res) => {
     Book.deleteOne({ _id: req.params.id })
         .then((mres) => {
-            Logger.addLog('books','book deleted');
+            Logger.addLog('books',`${req.userData.firstname} ${req.userData.lastname} deleted ${book.title}`);
             res.status(200).json({
                 message: 'Book deleted.',
                 mres: mres
@@ -72,7 +72,7 @@ module.exports.getAllBooks = (req, res) => {
 module.exports.updateBook = (req, res) => {
     Book.findByIdAndUpdate(req.params.id, req.body, {new: true})
         .then((mres) => {
-            Logger.addLog('books','updated book');
+            Logger.addLog('books',`${req.userData.firstname} ${req.userData.lastname} updated ${book.title}`);
             res.status(200).json({
                 message: 'Updated book.',
                 book: mres
