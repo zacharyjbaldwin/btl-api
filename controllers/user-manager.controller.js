@@ -22,12 +22,11 @@ exports.getUsers = (req, res) => {
 };
 
 exports.promoteUser = (req, res) => {
-    
     User.findByIdAndUpdate(req.params.id, { isAdmin: true }, { new: true })
         .then((user) => {
-            Logger.addLog('manager',`promoted user ${user.firstname} ${user.lastname}`);
+            Logger.addLog('manager',`${req.userData.firstname} ${req.userData.lastname} promoted user ${user.firstname} ${user.lastname}`);
             res.status(200).json({
-                message: `Promoted user ${user.firstname} ${user.lastname}`,
+                message: `promoted user ${user.firstname} ${user.lastname}`,
                 user: user
             });
         })
@@ -42,7 +41,7 @@ exports.promoteUser = (req, res) => {
 exports.demoteUser = (req, res) => {
     User.findByIdAndUpdate(req.params.id, { isAdmin: false }, { new: true })
         .then((user) => {
-            Logger.addLog('manager',`demoted user ${user.firstname} ${user.lastname}`);
+            Logger.addLog('manager',`${req.userData.firstname} ${req.userData.lastname} demoted user ${user.firstname} ${user.lastname}`);
             res.status(200).json({
                 message: `Demoted user ${user.firstname} ${user.lastname}`,
                 user: user

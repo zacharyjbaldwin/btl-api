@@ -8,9 +8,9 @@ module.exports.addLog = (event , message) => {
     log.save (
     )
     .then(
-        console("Successful log event")
+        console.log("Successful log event")
     )
     .catch(
-        console("Failed to log event")
+        console.log("Failed to log event")
     )
 }

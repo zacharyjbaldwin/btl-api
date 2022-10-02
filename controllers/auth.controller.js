@@ -92,7 +92,7 @@ module.exports.signup = (req, res) => {
 
                     user.save()
                         .then((user) => {
-                            Logger.addLog('authentication','user created ');
+                            Logger.addLog('authentication',`${req.userData.firstname} ${req.userData.lastname} 'created an account'`);
                             res.status(201).json({
                                 message: 'User created.',
                                 user: user
