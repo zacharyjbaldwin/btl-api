@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Logger = require('../helpers/loghelpers');
 
 exports.getUsers = (req, res) => {
     User.find()
@@ -24,6 +25,7 @@ exports.promoteUser = (req, res) => {
     
     User.findByIdAndUpdate(req.params.id, { isAdmin: true }, { new: true })
         .then((user) => {
+            Logger.addLog('manager','user promoted');
             res.status(200).json({
                 message: `Promoted user ${user.firstname} ${user.lastname}`,
                 user: user
@@ -40,6 +42,7 @@ exports.promoteUser = (req, res) => {
 exports.demoteUser = (req, res) => {
     User.findByIdAndUpdate(req.params.id, { isAdmin: false }, { new: true })
         .then((user) => {
+            Logger.addLog('manager','user demoted');
             res.status(200).json({
                 message: `Demoted user ${user.firstname} ${user.lastname}`,
                 user: user
