@@ -1,4 +1,5 @@
 const Book = require('../models/book.model');
+const Logger = require('../helpers/loghelpers');
 
 module.exports.addBook = (req, res) => {
     if (!req.body.title || !req.body.author || !req.body.isbn13 || !req.body.summary
@@ -21,6 +22,7 @@ module.exports.addBook = (req, res) => {
 
     book.save()
         .then((book) => {
+            Logger.addLog('book','book saved');
             res.status(201).json({
                 message: 'Added book',
                 book: book
@@ -37,6 +39,7 @@ module.exports.addBook = (req, res) => {
 module.exports.deleteBook = (req, res) => {
     Book.deleteOne({ _id: req.params.id })
         .then((mres) => {
+            Logger.addLog('books','book deleted');
             res.status(200).json({
                 message: 'Book deleted.',
                 mres: mres
@@ -69,6 +72,7 @@ module.exports.getAllBooks = (req, res) => {
 module.exports.updateBook = (req, res) => {
     Book.findByIdAndUpdate(req.params.id, req.body, {new: true})
         .then((mres) => {
+            Logger.addLog('books','updated book');
             res.status(200).json({
                 message: 'Updated book.',
                 book: mres
