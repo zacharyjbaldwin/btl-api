@@ -91,6 +91,7 @@ module.exports.signup = (req, res) => {
 
                     user.save()
                         .then((user) => {
+                            Log
                             res.status(201).json({
                                 message: 'User created.',
                                 user: user
