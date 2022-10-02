@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user.model');
+const Logger = require('../helpers/loghelpers');
 
 const JWT_SECRET = process.env.JWT_SECRET || require('../keys.json').JWT_SECRET;
 
@@ -91,7 +92,7 @@ module.exports.signup = (req, res) => {
 
                     user.save()
                         .then((user) => {
-                            Log
+                            Logger.addLog('authentication','user created');
                             res.status(201).json({
                                 message: 'User created.',
                                 user: user
