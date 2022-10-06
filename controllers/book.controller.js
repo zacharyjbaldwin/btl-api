@@ -62,8 +62,30 @@ module.exports.getAllBooks = (req, res) => {
             res.status(500).json({
                 message: 'Internal error.',
                 error: error
-            })
+            });
+        });
+};
+
+module.exports.getBookById = (req, res) => {
+    Book.findById(req.params.id)
+        .then((book) => {
+            if (!book) {
+                return res.status(404).json({
+                    error: 'No book found with that ID'
+                });
+            }
+
+            res.status(200).json({
+                messasge: 'Fetched book.',
+                book: book
+            });
         })
+        .catch((error) => {
+            res.status(500).json({
+                message: 'Internal error.',
+                error: error
+            });
+        });
 };
 
 module.exports.updateBook = (req, res) => {
