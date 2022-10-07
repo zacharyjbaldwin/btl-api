@@ -37,13 +37,24 @@ module.exports.addBook = (req, res) => {
 };
 
 module.exports.deleteBook = (req, res) => {
-    Book.deleteOne({ _id: req.params.id })
-        .then((mres) => {
-            Logger.addLog('books',`${req.userData.firstname} ${req.userData.lastname} deleted ${req.body.title}`);
-            res.status(200).json({
-                message: 'Book deleted.',
-                mres: mres
-            });
+    let title;
+    Book.findById(req.params.id)
+        .then((book) => {
+            title = book.title;
+            console.log(`${title}`);
+            book.delete()
+                .then((mres) => {
+                    Logger.addLog('book',`${req.userData.firstname} ${req.userData.lastname} deleted ${title}`);
+                    return res.status(200).json({
+                        message: `Deleted ${title}.`,
+                        mres: mres
+                    });
+                })
+                .catch(() => {
+                    return res.status(500).json({
+                        error: 'Internal error.'
+                    });
+                });
         })
         .catch((error) => {
             res.status(500).json({
@@ -51,6 +62,7 @@ module.exports.deleteBook = (req, res) => {
             });
         });
 };
+
 
 module.exports.getAllBooks = (req, res) => {
     Book.find({})
@@ -94,7 +106,7 @@ module.exports.getBookById = (req, res) => {
 module.exports.updateBook = (req, res) => {
     Book.findByIdAndUpdate(req.params.id, req.body, {new: true})
         .then((mres) => {
-            Logger.addLog('books',`${req.userData.firstname} ${req.userData.lastname} updated ${req.body.title}`);
+            Logger.addLog('book',`${req.userData.firstname} ${req.userData.lastname} updated ${req.body.title}`);
             res.status(200).json({
                 message: 'Updated book.',
                 book: mres
