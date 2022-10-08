@@ -4,7 +4,7 @@ module.exports.getLog = (req, res) => {
     Log.find().then((logs)=> {
         res.status(200).json({
             message: 'Retrieved all logs!', 
-            logs: logs,
+            logs: logs.reverse(),
         });
     }).catch(
         (error)=> {
