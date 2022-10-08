@@ -5,12 +5,8 @@ module.exports.addLog = (event , message) => {
         event: event,
         message: message,
     });
-    log.save (
-    )
-    .then(
-        console.log("Successful log event")
-    )
-    .catch(
-        console.log("Failed to log event")
-    )
+    log.save()
+    .catch((error) => {
+        throw error;
+    });
 }
