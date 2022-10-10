@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 // Add the routes here
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/books', require('./routes/book.routes'));
+app.use('/api/cart', require('./routes/cart.routes'))
 app.use('/api/users', require('./routes/user-manager.routes'));
 app.use('/api/logs', require('./routes/log.routes'));
 app.use('/api/mail', require('./routes/mail.routes'));
