@@ -2,7 +2,7 @@ const Cart = require('../models/cart.model');
 
 module.exports.getCart = (req, res) => {
     const id = req.params.id
-    Cart.find({owner:id})
+    Cart.findOne({owner:id})
         .then((cart) => {
             res.status(200).json({
                 message: 'Fetched cart',
