@@ -1,3 +1,5 @@
+const mustBeAuthenticated = require('../middleware/check-authentication');
+const mustBeAdmin = require('../middleware/check-admin');
 const router = require('express').Router();
 const orderController = require('../controllers/example.controller');
 
@@ -5,15 +7,15 @@ const orderController = require('../controllers/example.controller');
 router.post('/', orderController.addOrder);
 
 // get order by id, only admins can get any order otherwise you get order belonging to you
-router.get('/:orderid', mustBeAuthenticated, orderController.getOrder);
+router.get('/:id', mustBeAuthenticated, orderController.getOrder);
 
 // get all order
-router.get('/', mustBeAuthenticated, orderController.getAllOrders);
+router.get('/', mustBeAuthenticated, mustBeAdmin, orderController.getAllOrders);
 
 // mark order as shipped
-router.post('/:orderId', mustBeAuthenticated, orderController.markShippedOrder);
+router.put('/:orderId', mustBeAuthenticated, orderController.markShippedOrder);
 
 // mark order as canceled
-router.post('/:orderId', mustBeAuthenticated, orderController.markCanceledOrder);
+router.put('/:orderId', mustBeAuthenticated, orderController.markCanceledOrder);
 
 module.exports = router;
