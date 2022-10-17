@@ -2,29 +2,47 @@ const Cart = require('../models/cart.model');
 
 module.exports.getCart = (req, res) => {
     const id = req.params.id
-    Cart.findOne({owner:id})
-        .populate('contents.item')
-        .then((cart) => {
 
-            if (cart.contents.length == 0) {
-                res.status(200).json({
-                    message: 'Fetched cart',
-                    cart: cart
+    Cart.count({ owner: id }).then(count => {
+        if (count > 0) {
+            Cart.findOne({owner:id})
+                .populate('contents.item')
+                .then((cart) => {
+        
+                    if (cart.contents.length == 0) {
+                        res.status(200).json({
+                            message: 'Fetched cart',
+                            cart: cart
+                        })
+                    } else {
+                        res.status(200).json({
+                            message: 'Fetched cart',
+                            cart: cart
+                        })
+                    }
+        
                 })
-            } else {
-                res.status(200).json({
-                    message: 'Fetched cart',
-                    cart: cart
-                })
-            }
-
-        })
-        .catch((error) => {
-            res.status(500).json({
-                message: 'Failed to fetch cart.',
-                error: error
+                .catch((error) => {
+                    res.status(500).json({
+                        message: 'Failed to fetch cart.',
+                        error: error
+                    });
+                });
+        } else {
+            const newCart = new Cart({
+                owner: id,
+                contents: []
             });
-        });
+
+            newCart.save().then(() => {
+                res.status(200).json({
+                    message: 'Fetched cart',
+                    cart: newCart
+                });
+            })
+        }
+    });
+
 }
 
 module.exports.addToCart = (req, res) => {
