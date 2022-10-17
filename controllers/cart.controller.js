@@ -40,6 +40,12 @@ module.exports.getCart = (req, res) => {
                     cart: newCart
                 });
             })
+            .catch(() => {
+                res.status(500).json({
+                    message: 'Failed to fetch cart.',
+                    error: error
+                });
+            })
         }
     });
 
