@@ -12,10 +12,7 @@ router.get('/:id', mustBeAuthenticated, orderController.getOrder);
 // get all order
 router.get('/', mustBeAuthenticated, mustBeAdmin, orderController.getAllOrders);
 
-// mark order as shipped
-router.put('/:orderId', mustBeAuthenticated, orderController.markShippedOrder);
-
-// mark order as canceled
-router.put('/:orderId', mustBeAuthenticated, orderController.markCanceledOrder);
+// mark order as shipped or canceled
+router.put('/:orderId', mustBeAuthenticated, orderController.markShippedOrCanceled);
 
 module.exports = router;
