@@ -6,8 +6,14 @@ const cartSchema = mongoose.Schema({
 });
 
 const addressSchema = mongoose.Schema({
-    // check figma
-    // address Schema
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    sendTo: { type: String, required: true },
+    addrLine1: { type: String, required: true },
+    addrLine2: { type: String, required: false, default: '' },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    zip: { type: Number, required: true },
+    defaultAddr: { type: Boolean, required: false, default: false }
 });
 
 const orderSchema = mongoose.Schema({
@@ -19,4 +25,5 @@ const orderSchema = mongoose.Schema({
     shippingPrice: { type: number, required: true },
     timestamp: { type: String, required: true}, 
 });
+
 module.exports = mongoose.model('Order', orderSchema);
