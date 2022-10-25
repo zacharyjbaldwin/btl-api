@@ -1,6 +1,7 @@
 const Cart = require('../models/cart.model');
 const Order = require('../models/order.model');
 const Address = require('../models/address.model');
+const mail = require('../helpers/mail-helper');
 
 module.exports.createOrder = (req, res) => {
     if (!req.body.addressId || req.body.cardType == undefined
@@ -37,6 +38,7 @@ module.exports.createOrder = (req, res) => {
                     });
                     order.save()
                         .then((order) => {
+                            mail.sendInvoiceEmail(req.userData.email, order._id);
                             res.status(201).json({
                                 message: 'Created order',
                                 order: order
