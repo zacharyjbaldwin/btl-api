@@ -36,6 +36,7 @@ app.use('/api/mail', require('./routes/mail.routes'));
 app.use('/api/user', require('./routes/user.routes'));
 app.use('/api/address', require('./routes/address.routes'));
 app.use('/api/gbs', require('./routes/gbs.routes'));
+app.use('/api/order', require('./routes/order.routes'));
 app.use('/api', require('./routes/example.routes'));
 
 // Listen on the specified port.
