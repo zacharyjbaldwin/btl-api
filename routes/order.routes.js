@@ -1,7 +1,7 @@
 const mustBeAuthenticated = require('../middleware/check-authentication');
 const mustBeAdmin = require('../middleware/check-admin');
 const router = require('express').Router();
-const orderController = require('../controllers/example.controller');
+const orderController = require('../controllers/order.controller');
 
 // // api/order/
 router.post('/', mustBeAuthenticated, orderController.createOrder);
