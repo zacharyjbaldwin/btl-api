@@ -25,5 +25,4 @@ const orderSchema = mongoose.Schema({
     shippingPrice: { type: number, required: true },
     timestamp: { type: String, required: true}, 
 });
-
 module.exports = mongoose.model('Order', orderSchema);

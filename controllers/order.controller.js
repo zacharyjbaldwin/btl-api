@@ -1,13 +1,13 @@
 const Order = require('../models/order.model');
 
 module.exports.getOrder = (req, res) => {
-    // .populate
     res.status(200).json({
         message: 'order retrived!'
     });
 };
 
 module.exports.addOrder = (req, res) => {
+    
     res.status(200).json({
         message: 'order added!'
     });
