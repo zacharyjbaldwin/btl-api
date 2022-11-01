@@ -3,20 +3,20 @@ const mustBeAdmin = require('../middleware/check-admin');
 const router = require('express').Router();
 const orderController = require('../controllers/order.controller');
 
-// // api/order/
+// POST root/api/order/
 router.post('/', mustBeAuthenticated, orderController.createOrder);
 
-// POST root/api/orders
-// add order
-router.post('/', orderController.addOrder);
-
-// GET root/api/ordesr/:id
+// GET root/api/orders/:id
 // get order by id, only admins can get any order otherwise you get order belonging to you
 router.get('/:id', mustBeAuthenticated, orderController.getOrder);
 
 // GET root/api/orders/
-// get all orders
-router.get('/', mustBeAuthenticated, orderController.getAllOrders); // mustBe Authenticated part must be added
+// get all orders from the database
+router.get('/', mustBeAuthenticated, mustBeAdmin, orderController.getAllOrders); 
+
+// GET root/api/orders/
+// get all orders beloging to me
+router.get('/', mustBeAuthenticated, mustBeAdmin, orderController.getMyOrders); 
 
 // GET root/api/orders/:orderId
 // mark order as shipped or canceled

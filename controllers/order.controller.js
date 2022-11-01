@@ -3,21 +3,25 @@ const Order = require('../models/order.model');
 const Address = require('../models/address.model');
 const mail = require('../helpers/mail-helper');
 
-module.exports.getOrder = (req, res) => {
-    res.status(200).json({
-        message: 'order retrived!'
-    });
+// Gets all orders for a specific user
+module.exports.getMyOrders = (req, res) => {
+    Order.find({creator: req.userData.userId}).then((order) => { // add the populate for something
+        res.status(200).json({
+            message: 'retrived my orders!',
+            order: order,
+        });
+    }).catch(
+        (error)=> {
+            res.status(500).json({
+                error: 'failed to fetch orders', 
+            }); 
+        }
+    )
 };
 
-module.exports.addOrder = (req, res) => {
-    
-    res.status(200).json({
-        message: 'order added!'
-    });
-};
-
+// Gets all orders for admin
 module.exports.getAllOrders = (req, res) => {
-    Order.find().populate('contents.BookId').then((order) => {
+    Order.find().then((order) => { // add the populate for something
         res.status(200).json({
             message: 'retrived all orders!',
             order: order,
@@ -31,8 +35,16 @@ module.exports.getAllOrders = (req, res) => {
     )
 };
 
+// gets order by ID 
+module.exports.getOrder = (req, res) => {
+    res.status(200).json({
+        message: 'order retrived!'
+    });
+}
+
 // req.body to check what the thing contains
 module.exports.markShippedOrCanceled = (req, res) => {
+    
     res.status(200).json({
         message: 'order marked as shipped!'
     });
