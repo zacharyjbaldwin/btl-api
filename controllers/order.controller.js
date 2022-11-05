@@ -37,17 +37,36 @@ module.exports.getAllOrders = (req, res) => {
 
 // gets order by ID 
 module.exports.getOrder = (req, res) => {
-    res.status(200).json({
-        message: 'order retrived!'
-    });
+
+    // first check if they are admin or order belongs to them
+    // if failed display error
+
+
+    Order.find({_id: req.params.id}).then((order) => { 
+        res.status(200).json({
+            message: 'retrived order',
+            order: order,
+        });
+    }).catch(
+        (error)=> {
+
+        }
+    )
 }
 
 // req.body to check what the thing contains
 module.exports.markShippedOrCanceled = (req, res) => {
-    
-    res.status(200).json({
-        message: 'order marked as shipped!'
-    });
+    Order.findByIdAndUpdate(req.params.id, {status: req.body.newStatus}).then(() => {
+        res.status(200).json({
+            message: 'order status updated!'
+        });
+    }).catch(
+        (error) => {
+            res.status(500).json({
+                error: 'failed to fetch order', 
+            }); 
+        }
+    )
 };
 
 
