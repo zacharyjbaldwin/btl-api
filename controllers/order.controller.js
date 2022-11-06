@@ -41,7 +41,7 @@ module.exports.getOrder = (req, res) => {
     Order.findOne({_id: req.params.id}).then((order) => {
 
         // This is the code I've added for extra security.
-        if ((req.userData.userId != order.creator) || (!req.userData.isAdmin)) {
+        if ((req.userData.userId != order.creator) && (!req.userData.isAdmin)) {
             return res.status(401).json({
                 error: 'Not authorized.'
             });
