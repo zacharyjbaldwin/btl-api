@@ -62,6 +62,7 @@ module.exports.getOrder = (req, res) => {
 // req.body to check what the thing contains
 module.exports.markShippedOrCanceled = (req, res) => {
     Order.findByIdAndUpdate(req.params.id, {status: req.body.newStatus}).then(() => {
+        Logger.addLog('order', `${req.userData.firstname} ${req.userData.lastname} marked order ${req.params.id} as ${['pending', 'canceled', 'shipped'].at(req.body.newStatus)}`)
         res.status(200).json({
             message: 'order status updated!'
         });
