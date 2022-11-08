@@ -3,6 +3,7 @@ const Order = require('../models/order.model');
 const Address = require('../models/address.model');
 const mail = require('../helpers/mail-helper');
 const cartHelper = require('../helpers/cart-helper');
+const Logger = require('../helpers/loghelpers');
 
 // Gets all orders for a specific user
 module.exports.getMyOrders = (req, res) => {
@@ -112,6 +113,7 @@ module.exports.createOrder = (req, res) => {
                         .then((order) => {
                             mail.sendInvoiceEmail(req.userData.email, order._id);
                             cartHelper.deleteCartByUserId(req.userData.userId);
+                            Logger.addLog('order', `${req.userData.firstname} ${req.userData.lastname} placed an order`);
                             res.status(201).json({
                                 message: 'Created order',
                                 order: order
